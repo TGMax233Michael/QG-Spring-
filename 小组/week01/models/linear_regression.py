@@ -29,7 +29,7 @@ class LinearRegression:
             gradient = -X.T.dot(y-y_pred) / n_samples
             self.weights -= gradient * self.learning_rate
             
-            # print(loss)
+            print(loss)
             
     def predict(self, X: np.ndarray):
         if X.ndim == 1:
