@@ -17,7 +17,7 @@ if __name__ == "__main__":
     X = polynomial_feature(X, degrees=2)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    model = LinearRegression(n_epoches=5000, learning_rate=0.02)
+    model = LinearRegression(n_epoches=2500, learning_rate=0.02, batch_size=32)
     model.fit(X_train, y_train)
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     print(f"MSE: {MeanSqaureError(y_test, y_test_pred)}")
     print(f"R2: {r2_score(y_test, y_test_pred)}")
     
-    
+    model.loss_plot()
