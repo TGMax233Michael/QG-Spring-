@@ -40,7 +40,7 @@ class LinearRegression:
             
             self.weights -= gradient * self.learning_rate
             self.losses[epoch+1] = loss
-            print(loss)
+            # print(loss)
             
     def predict(self, X: np.ndarray):
         if X.ndim == 1:
