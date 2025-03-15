@@ -32,7 +32,7 @@ if __name__ == "__main__":
     X, y = data.iloc[:, :-1], data.iloc[:, -1]
     print(X.columns)
     
-    X = X.drop(columns=['chas', 'rad', 'tax', 'indus', 'b'])
+    X = X.drop(columns=['indus' ,'chas', 'rad', 'tax', 'b'])
     print(X.columns)
     
     
