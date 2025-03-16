@@ -1,4 +1,4 @@
-from models.linear_regression import LinearRegression
+from models.linear_model import LinearRegression
 from model_selection import train_test_split
 from preprocessing.feature import polynomial_feature
 from preprocessing.scaler import min_max_scaler

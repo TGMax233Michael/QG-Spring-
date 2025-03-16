@@ -1,4 +1,4 @@
-from models.linear_regression import LinearRegression
+from models.linear_model import LinearRegression
 from model_selection import train_test_split
 from metrics.regression import r2_score, MeanSqaureError
 from sklearn.datasets import make_regression

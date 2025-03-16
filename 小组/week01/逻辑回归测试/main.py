@@ -1,4 +1,4 @@
-from models.classification import LogisticRegression
+from models.linear_model import LogisticRegression
 from model_selection import train_test_split
 from preprocessing.feature import polynomial_feature
 from metrics.classification import Accuracy
