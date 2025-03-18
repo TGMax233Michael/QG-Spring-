@@ -37,8 +37,6 @@ if __name__ == "__main__":
     print(X.columns)
     
     
-    
-    
     # show_relevance(X, y)
     
     X, y = np.array(X), np.array(y)
@@ -47,34 +45,58 @@ if __name__ == "__main__":
     X = min_max_scaler(X)
     X = polynomial_feature(X, degrees=5)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    print(X_train.shape)
+    # print(X_train.shape)
     
-    model = LinearRegression(n_epoches=6000, learning_rate=0.05, batch_size=len(X)//2)
+    # model = LinearRegression(n_epoches=6000, learning_rate=0.05, batch_size=len(X)//2)
+    # model.fit(X_train, y_train)
+    # y_train_pred = model.predict(X_train)
+    # y_test_pred = model.predict(X_test)
+    
+    # print("线性回归模型")
+    # print(f"训练集")
+    # print(f"MSE: {MeanSqaureError(y_train, y_train_pred)}")
+    # print(f"R2: {r2_score(y_train, y_train_pred)}")
+    
+    # print(f"测试集")
+    # print(f"MSE: {MeanSqaureError(y_test, y_test_pred)}")
+    # print(f"R2: {r2_score(y_test, y_test_pred)}")
+    
+    # model.loss_plot()
+    
+    # 实验后min_batch = 12, gain_threshold = 1时最佳
+    model = TreeRegressor(max_depth=10, min_batch=12, gain_threshold=1)
     model.fit(X_train, y_train)
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
-    
-    print("线性回归模型")
-    print(f"训练集")
-    print(f"MSE: {MeanSqaureError(y_train, y_train_pred)}")
-    print(f"R2: {r2_score(y_train, y_train_pred)}")
-    
-    print(f"测试集")
-    print(f"MSE: {MeanSqaureError(y_test, y_test_pred)}")
-    print(f"R2: {r2_score(y_test, y_test_pred)}")
-    
-    model.loss_plot()
-    
-    model = TreeRegressor()
-    model.fit(X_train, y_train)
-    y_train_pred = model.predict(X_train)
-    y_test_pred = model.predict(X_test)
-    
+        
     print("回归决策树")
     print(f"训练集")
     print(f"MSE: {MeanSqaureError(y_train, y_train_pred)}")
     print(f"R2: {r2_score(y_train, y_train_pred)}")
-    
+        
     print(f"测试集")
     print(f"MSE: {MeanSqaureError(y_test, y_test_pred)}")
     print(f"R2: {r2_score(y_test, y_test_pred)}")
+    
+    # train_scores = []
+    # test_scores = []
+    
+    # for i in range(0, 5):
+    #     model = TreeRegressor(max_depth=100, min_batch=2, gain_threshold=i)
+    #     model.fit(X_train, y_train)
+    #     y_train_pred = model.predict(X_train)
+    #     y_test_pred = model.predict(X_test)
+        
+    #     print("回归决策树")
+    #     print(f"训练集")
+    #     print(f"MSE: {MeanSqaureError(y_train, y_train_pred)}")
+    #     print(f"R2: {r2_score(y_train, y_train_pred)}")
+    #     train_scores.append((i, float(MeanSqaureError(y_train, y_train_pred)), float(r2_score(y_train, y_train_pred))))
+        
+    #     print(f"测试集")
+    #     print(f"MSE: {MeanSqaureError(y_test, y_test_pred)}")
+    #     print(f"R2: {r2_score(y_test, y_test_pred)}")
+    #     test_scores.append((i, float(MeanSqaureError(y_test, y_test_pred)), float(r2_score(y_test, y_test_pred))))
+    
+    # for i, j in zip(train_scores, test_scores):
+    #     print(i, j)

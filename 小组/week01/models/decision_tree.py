@@ -59,6 +59,7 @@ class TreeClassifier:
                 
                 weighted_gini = len(y_left)/n_samples * gini(y_left) + len(y_right)/n_samples * gini(y_right)
                 gain = base_gini - weighted_gini
+            
                 
                 if gain > best_gain:
                     best_gain = gain
@@ -78,7 +79,7 @@ class TreeClassifier:
             return DecisionTreeNode(label=np.argmax(np.bincount(y)))
         
         
-        left_mask = X[:, feature] > threshold
+        left_mask = X[:, feature] < threshold
         right_mask = ~left_mask
         left = self._build_tree(X[left_mask], y[left_mask], layer+1)
         right = self._build_tree(X[right_mask], y[right_mask], layer+1)
@@ -92,7 +93,7 @@ class TreeClassifier:
             return np.full(X.shape[0], node.label)
         
         predictions = np.empty(X.shape[0], dtype=np.float64)
-        left_mask = X[:, node.feature] > node.threshold
+        left_mask = X[:, node.feature] < node.threshold
         right_mask = ~left_mask
         
         predictions[left_mask] = self._travel_tree(X[left_mask], node.left, layer+1)
@@ -110,8 +111,11 @@ class TreeClassifier:
         return self._travel_tree(X, self.tree, 0)
     
 class TreeRegressor:
-    def __init__(self):
+    def __init__(self, max_depth=100, min_batch=10, gain_threshold=0):
         self.tree: DecisionTreeNode|None = None
+        self.max_depth = max_depth
+        self.min_batch = min_batch
+        self.gain_threshold = gain_threshold
     
     def _best_split(self, X: np.ndarray, y: np.ndarray):
         if X.ndim == 1:
@@ -142,30 +146,20 @@ class TreeRegressor:
                     best_feature = feature
                     best_threshold = threshold
                     
-        return best_feature, best_threshold
+        return best_gain, best_feature, best_threshold
     
-    # 等待完成
     def _build_tree(self, X: np.ndarray, y: np.ndarray, layer):
+        gain, feature, threshold = self._best_split(X, y)
+        
         if len(y) == 0:
             return None
         if len(np.unique(y)) == 1:
             return DecisionTreeNode(label=y[0])
+        if layer >= self.max_depth or len(y) <= self.min_batch or gain <= self.gain_threshold:
+            return DecisionTreeNode(label=np.mean(y))
         
-        # print(layer)
-        
-        feature, threshold = self._best_split(X, y)
-        
-        left_mask = X[:, feature] > threshold
+        left_mask = X[:, feature] < threshold
         right_mask = ~left_mask
-        
-        # print(left_mask)
-        # print(right_mask)
-        # print(X)
-        # print(y)
-        # print(f"left: {np.mean(np.sum(left_mask))}")
-        # print(f"right: {np.mean(np.sum(right_mask))}")
-        # if np.mean(left_mask) == 1 or np.mean(right_mask) == 1:
-        #     return DecisionTreeNode(label=np.mean(y))
         
         left = self._build_tree(X[left_mask], y[left_mask], layer+1)
         right = self._build_tree(X[right_mask], y[right_mask], layer+1)
@@ -183,7 +177,7 @@ class TreeRegressor:
             return np.full(X.shape[0], node.label)
         
         predictions = np.empty(X.shape[0], dtype=np.float64)
-        left_mask = X[:, node.feature] > node.threshold
+        left_mask = X[:, node.feature] < node.threshold
         right_mask = ~left_mask
         
         predictions[left_mask] = self._travel_tree(X[left_mask], node.left)
