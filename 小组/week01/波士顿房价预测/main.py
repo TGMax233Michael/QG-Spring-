@@ -10,7 +10,7 @@ import pandas as pd
 
 def show_relevance(X: pd.DataFrame, y: pd.DataFrame):
     plt.figure(figsize=(16, 10), dpi=100)
-    for i in range(9):
+    for i in range(9):  
         plt.subplot(3, 3, i+1)
         plt.scatter(X.iloc[:, i], y)
         plt.xlabel(f"{X.columns[i]}")
@@ -31,13 +31,11 @@ if __name__ == "__main__":
     # print(data.columns)
     
     X, y = data.iloc[:, :-1], data.iloc[:, -1]
+    # show_relevance(X, y)
     print(X.columns)
     
     X = X.drop(columns=['indus' ,'chas', 'rad', 'tax', 'b'])
     print(X.columns)
-    
-    
-    # show_relevance(X, y)
     
     X, y = np.array(X), np.array(y)
     print(X.shape)
