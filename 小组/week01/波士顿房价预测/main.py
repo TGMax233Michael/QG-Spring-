@@ -1,9 +1,9 @@
-from models.linear_model import LinearRegression
-from models.decision_tree import TreeRegressor
-from model_selection import train_test_split
-from preprocessing.feature import polynomial_feature
-from preprocessing.scaler import min_max_scaler
-from metrics.regression import MeanSqaureError, r2_score
+from myMLModule.models.linear_model import LinearRegression
+from myMLModule.models.decision_tree import TreeRegressor
+from myMLModule.model_selection import train_test_split
+from myMLModule.preprocessing.feature import polynomial_feature
+from myMLModule.preprocessing.scaler import min_max_scaler
+from myMLModule.metrics.regression import MeanSqaureError, r2_score
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd

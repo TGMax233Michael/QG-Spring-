@@ -1,8 +1,8 @@
-from models.decision_tree import TreeClassifier, TreeRegressor
-from metrics.classification import Accuracy
-from metrics.regression import MeanSqaureError, r2_score
+from myMLModule.models.decision_tree import TreeClassifier, TreeRegressor
+from myMLModule.metrics.classification import Accuracy
+from myMLModule.metrics.regression import MeanSqaureError, r2_score
 from sklearn.datasets import make_classification, load_iris, make_regression
-from model_selection import train_test_split
+from myMLModule.model_selection import train_test_split
 
 if __name__ == "__main__":
     # data = load_iris()
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # print("测试集")
     # print(f"Accuracy: {Accuracy(y_test, y_test_pred)}")
     
-    data = make_regression(n_samples=100, n_features=2, random_state=42)
+    data = make_regression(n_samples=100., n_features=2, random_state=42)
     X, y = data[0], data[-1]
     X_train, X_test, y_train, y_test = train_test_split(X, y, 42, 0.2)
     
